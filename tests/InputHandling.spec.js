@@ -1,5 +1,5 @@
 const{test, expect} = require('@playwright/test');
-test('Inbuild locators', async ({page})=>{
+test('Input Handling', async ({page})=>{
     await page.goto('https://testautomationpractice.blogspot.com/');
 
     // ┌──────────────────────────────┐
