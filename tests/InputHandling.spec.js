@@ -2,8 +2,10 @@ const{test, expect} = require('@playwright/test');
 test('Inbuild locators', async ({page})=>{
     await page.goto('https://testautomationpractice.blogspot.com/');
 
-
-    //DROPDOWN
+    // ┌──────────────────────────────┐
+    // │      DropdownHandling        │
+    // └──────────────────────────────┘
+  
 
     //Select multiple options from the multi select dropdown
     await page.selectOption('#colors', ['Red','Blue','Green']);
@@ -21,7 +23,9 @@ test('Inbuild locators', async ({page})=>{
     await expect(content.includes('Blue')).toBeTruthy();
 
     
-    //ALERTS
+    // ┌──────────────────────────────┐
+    // │        AlertHandling         │
+    // └──────────────────────────────┘
 
     //Handling simple alert
     page.on('Alerts',async ({dialog})=>{
@@ -50,5 +54,66 @@ test('Inbuild locators', async ({page})=>{
     await page.click("//button[normalize-space()='Confirmation Alert']");
     await page.click("//button[normalize-space()='Prompt Alert']");
 
-    await page.waitForTimeout(5000);
+    
+    
+    // ┌──────────────────────────────┐
+    // │        TableHandling         │
+    // └──────────────────────────────┘
+
+    //First we need reach the table
+    const table = await page.locator('#productTable');
+    //Finding the total number of columns
+    const columns = await table.locator('thead tr th');
+    console.log("The number of columns:", await columns.count());
+    //Finding the total number of rows
+    const rows = await table.locator('tbody tr');
+    console.log("The number of rows:", await rows.count());
+    //Assertion with total number of rows and columns
+    await expect(await columns.count()).toBe(4);
+    await expect(await rows.count()).toBe(5);
+
+    //Select one particular row among all rows for selecting the data
+    // const matchedRow = rows.filter({
+    // has: page.locator('td'),
+    // hasText: 'Smartwatch'
+    // })
+    // await matchedRow.locator('input').check();
+
+    //Function calling
+    await mutipleSelect(rows, page, 'Smartphone');
+    await mutipleSelect(rows, page, 'Tablet');
+
+    //Reusable function for multiple value selection
+    async function mutipleSelect(rows, page, name) {
+      const matchedRow = rows.filter({
+    has: page.locator('td'),
+    hasText: name
+    })
+    await matchedRow.locator('input').check();  
+    }
+  
+   //Getting all pages and all data
+    const pages = await page.locator('.pagination li a');
+    console.log("Total number of pages:",await pages.count())
+    for (let p = 0; p<await pages.count(); p++)
+    {
+        if(p>0)
+        {
+            await pages.nth(p).click();
+        }
+        //Fetching all the data from the table
+        for(let i = 0; i<await rows.count(); i++){
+        const row = await rows.nth(i);
+        const tds = await row.locator('td');
+        for(let j = 0; j< await tds.count()-1; j++){
+            console.log(await tds.nth(j).textContent());
+        }
+    }
+
+    }
+
+    // ┌──────────────────────────────┐
+    // │        CommonCode            │
+    // └──────────────────────────────┘
+       await page.waitForTimeout(5000);
 })
