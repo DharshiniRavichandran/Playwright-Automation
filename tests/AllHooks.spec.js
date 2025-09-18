@@ -1,10 +1,10 @@
 const{test, expect} = require('@playwright/test');
 
-//Before and after each hooks will run before and after excuting each test case.
+//Before and after all hooks will run before and after excuting all test cases
 
 let page;  //So this page ficture has been declared globally.
 
-test.beforeAll('Before each hook-Login', async ({browser})=>{
+test.beforeAll('Before all hook-Login', async ({browser})=>{
 page = await browser.newPage();   //Assigning new page to the 'page' variable. so no need declared again and again
 //login
     await page.goto("https://demoblaze.com/");
@@ -13,7 +13,7 @@ page = await browser.newPage();   //Assigning new page to the 'page' variable. s
     await page.locator("#loginpassword").fill("test@123");
     await page.locator("//button[contains(text(), 'Log in')]").click();
 })
-test.afterAll('After each hook-Logout', async ()=>{
+test.afterAll('After all hook-Logout', async ()=>{
 //logout
     await page.locator("//a[contains(text(), 'Log out')]").click();
     await page.waitForTimeout(5000);
