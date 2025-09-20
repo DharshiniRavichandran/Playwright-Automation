@@ -15,7 +15,7 @@ await page.fill("input[id='loginpassword']", 'test@123');
 await page.click("//button[normalize-space()='Log in']");
 
 //logout button presence
-const logoutlink = await page.locator("//a[normalize-space()='Log ot']"); //In this line, We'll get failure.. So In recording, I'll be shown
+const logoutlink = await page.locator("//a[normalize-space()='Log out']"); //In this line, We'll get failure.. So In recording, I'll be shown
 await expect(logoutlink).toBeVisible();
 
 //Closing the browser
