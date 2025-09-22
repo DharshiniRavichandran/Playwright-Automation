@@ -31,8 +31,6 @@ test('MouseHoverActions', async ({page})=>{
     // await page.mouse.up();
     //Approach-2
     await source.dragTo(source);
-
-
-
+    
     await page.waitForTimeout(5000);
 })

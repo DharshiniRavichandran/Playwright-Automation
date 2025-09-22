@@ -19,5 +19,4 @@ test('Inbuild locators', async ({page})=>{
     //Checking whether the text is visible by text value
     await expect(await page.getByText(username)).toBeVisible
 
-
 })

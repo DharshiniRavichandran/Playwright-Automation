@@ -11,4 +11,6 @@ test('File Handling', async ({ page }) => {
   await page.waitForSelector('#multipleFilesInput');
   const multiFile = await page.locator('#multipleFilesInput');
   await multiFile.setInputFiles(["tests\\Files\\file1.txt","tests\\Files\\file2.txt"]);
+
+  await page.waitForTimeout(5000);
 });
